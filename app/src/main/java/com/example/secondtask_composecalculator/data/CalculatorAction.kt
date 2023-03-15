@@ -68,6 +68,31 @@ class CalculatorAction {
         doubleInExpression = true
     }
 
+    private fun getFirstNumber(exp: String){
+        var indexBeforeOperator = 1
+        var firstNumber = EMPTY_STRING
+        firstNumber += exp[0]
+        while (!operationsArray.contains(exp[indexBeforeOperator])) {
+            firstNumber += exp[indexBeforeOperator]
+            indexBeforeOperator += 1
+            if (indexBeforeOperator > exp.length - 1) {
+                expression.value = firstNumber
+            }
+        }
+        getSecondNumber(indexBeforeOperator, exp, firstNumber)
+    }
+
+    private fun getSecondNumber(indexBeforeOperator: Int, exp: String, firstNumber: String ){
+        var secondNumber = EMPTY_STRING
+        var indexAfterOperator = indexBeforeOperator + 1
+        while (indexAfterOperator <= exp.length - 1) {
+            secondNumber += exp[indexAfterOperator]
+            indexAfterOperator += 1
+        }
+        calculateExpression(exp, firstNumber, secondNumber, indexBeforeOperator)
+    }
+
+
 
     private fun calculateSignSearch() {
         if (!actionIsClicked) {
@@ -76,26 +101,8 @@ class CalculatorAction {
         actionIsClicked = false
         numberIsClicked = false
         doubleInExpression = false
-        var firstNumber = EMPTY_STRING
-        var secondNumber = EMPTY_STRING
-        var indexBeforeOperator = 1
         val exp = expression.value
-        firstNumber += exp[0]
-
-        while (!operationsArray.contains(exp[indexBeforeOperator])) {
-            firstNumber += exp[indexBeforeOperator]
-            indexBeforeOperator += 1
-            if (indexBeforeOperator > exp.length - 1) {
-                expression.value = firstNumber
-            }
-        }
-
-        var indexAfterOperator = indexBeforeOperator + 1
-        while (indexAfterOperator <= exp.length - 1) {
-            secondNumber += exp[indexAfterOperator]
-            indexAfterOperator += 1
-        }
-        calculateExpression(exp, firstNumber, secondNumber, indexBeforeOperator)
+        getFirstNumber(exp)
     }
 
 

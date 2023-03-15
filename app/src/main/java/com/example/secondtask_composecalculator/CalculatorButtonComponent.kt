@@ -32,7 +32,7 @@ fun DeleteButton(charDelete: () -> Unit, buttonColor: Color) {
 
 @Composable
 fun ButtonModel(
-    buttonSymbol: ActionEnum, onClick: (String) -> Unit, color: Color, fontSize: TextUnit,
+    buttonSymbol: ActionEnum, onClick: (ActionEnum) -> Unit, color: Color, fontSize: TextUnit,
     fontColor: Color
 ) {
     Button(
@@ -41,7 +41,7 @@ fun ButtonModel(
             .fillMaxSize(),
         colors = ButtonDefaults.buttonColors(backgroundColor = color),
         shape = RoundedCornerShape(28.dp),
-        onClick = { onClick.invoke(buttonSymbol.symbol) },
+        onClick = { onClick.invoke(buttonSymbol) },
     ) {
         Text(
             text = buttonSymbol.symbol,

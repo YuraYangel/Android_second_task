@@ -1,6 +1,6 @@
 package com.example.secondtask_composecalculator.data
 
-enum class ActionEnum(var symbol: String) {
+enum class ActionEnum(val symbol: String) {
     PLUS("+"),
     MINUS("-"),
     CLEAR("AC"),

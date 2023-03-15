@@ -1,96 +1,32 @@
 package com.example.secondtask_composecalculator.data
 
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.graphics.Color
-
-var numberIsClicked: Boolean = false
-var actionIsClicked: Boolean = false
-var errorInString: Boolean = false
-var doubleInExpression: Boolean = false
-val operationsArray: List<Char> = listOf('-', '+', '*', '/')
-val expression: MutableState<String> = mutableStateOf("")
 
 class CalculatorAction {
+    private var numberIsClicked: Boolean = false
+    private var actionIsClicked: Boolean = false
+    private var errorInString: Boolean = false
+    private var doubleInExpression: Boolean = false
+    private val operationsArray: List<Char> = listOf('-', '+', '×', '÷')
+    val expression: MutableState<String> = mutableStateOf("")
 
     fun handleButtonClick(buttonSymbol: ActionEnum) {
         when (buttonSymbol) {
-            ActionEnum.PLUS -> {
-                addPlusOnExpression()
-            }
-            ActionEnum.DIVIDE -> {
-                addDivideOnExpression()
-            }
-            ActionEnum.MULTIPLY -> {
-                addMultiplyOnExpression()
-            }
-            ActionEnum.MINUS -> {
-                addMinusOnExpression()
-            }
-            ActionEnum.SIGN -> {
-                signChange()
-            }
-            ActionEnum.CALCULATE -> {
-                calculate()
-            }
-            ActionEnum.PERCENT -> {
-                toPercent()
-            }
-            ActionEnum.CLEAR -> {
-                clearExpression()
-            }
-            ActionEnum.DOUBLE -> {
-                toDouble()
-            }
-            else -> {
-                addNumberOnExpression(buttonSymbol)
-            }
-        }
-    }
+            ActionEnum.PLUS, ActionEnum.DIVIDE, ActionEnum.MULTIPLY, ActionEnum.MINUS ->
+                addActionOnExpression(buttonSymbol)
 
-    @Composable
-    fun getButtonColor(buttonSymbol: ActionEnum): Color {
-        when (buttonSymbol) {
-            ActionEnum.PLUS, ActionEnum.DIVIDE, ActionEnum.MINUS, ActionEnum.CALCULATE, ActionEnum.MULTIPLY -> {
-                return MaterialTheme.colorScheme.primary
-            }
-            else -> {
-                return MaterialTheme.colorScheme.primaryContainer
-            }
-        }
-    }
+            ActionEnum.SIGN -> signChange()
 
-    // сделал эти методы Composable, потому что копилятор не даёт возвращать цвета из Material3, если функция не Composable
-    @Composable
-    fun getFontColor(buttonSymbol: ActionEnum): Color {
-        when (buttonSymbol) {
-            ActionEnum.PLUS, ActionEnum.DIVIDE, ActionEnum.MINUS, ActionEnum.CALCULATE, ActionEnum.MULTIPLY -> {
-                return MaterialTheme.colorScheme.onPrimary
-            }
-            else -> {
-                return MaterialTheme.colorScheme.onPrimaryContainer
-            }
-        }
-    }
+            ActionEnum.CALCULATE -> calculateSignSearch()
 
-    fun changeDelColor(): Color {
-        val color: Color
-        if (expression.value == "") {
-            color = Color.DarkGray
-        } else {
-            color = Color.White
-        }
-        return color
-    }
+            ActionEnum.PERCENT -> toPercent()
 
-    fun oneCharDelete() {
-        if (expression.value.isNotEmpty()) {
-            expression.value = expression.value.substring(0, expression.value.length - 1)
-            actionIsClicked = false
-            errorInString = false
-            doubleInExpression = false
+            ActionEnum.CLEAR -> clearExpression()
+
+            ActionEnum.DOUBLE -> toDouble()
+
+            else -> addNumberOnExpression(buttonSymbol)
         }
     }
 
@@ -100,50 +36,25 @@ class CalculatorAction {
         numberIsClicked = true
     }
 
-    private fun addMinusOnExpression() {
-        if (!actionIsClicked and !errorInString) {
-            expression.value += ActionEnum.MINUS.symbol
-            actionIsClicked = true
-            doubleInExpression = false
+    fun oneCharDelete() {
+        if (expression.value.isEmpty()) {
+            return
         }
+        expression.value = expression.value.substring(0, expression.value.length - 1)
+        actionIsClicked = false
+        errorInString = false
+        doubleInExpression = false
     }
 
-    private fun addPlusOnExpression() {
-        if (!actionIsClicked and !errorInString) {
-            expression.value += ActionEnum.PLUS.symbol
-            actionIsClicked = true
-            doubleInExpression = false
+    private fun addActionOnExpression(buttonSymbol: ActionEnum) {
+        if (actionIsClicked || errorInString) {
+            return
         }
+        expression.value += buttonSymbol.symbol
+        actionIsClicked = true
+        doubleInExpression = false
     }
 
-    private fun addDivideOnExpression() {
-        if (!actionIsClicked and !errorInString) {
-            expression.value += "/"
-            actionIsClicked = true
-            doubleInExpression = false
-        }
-    }
-
-
-    private fun addMultiplyOnExpression() {
-        if (!actionIsClicked and !errorInString) {
-            expression.value += "*"
-            actionIsClicked = true
-            doubleInExpression = false
-        }
-    }
-
-
-    private fun isOperatorInExpression(): Boolean {
-        var flag = true
-        for (i in 0 until expression.value.length) {
-            if (operationsArray.contains(expression.value[i])) {
-                flag = false
-                break
-            }
-        }
-        return flag
-    }
 
     private fun clearExpression() {
         actionIsClicked = false
@@ -154,66 +65,78 @@ class CalculatorAction {
 
 
     private fun toDouble() {
-        if (!doubleInExpression) {
-            expression.value += "."
-            doubleInExpression = true
+        if (doubleInExpression) {
+            return
+        }
+        expression.value += "."
+        doubleInExpression = true
+    }
+
+
+    private fun calculateSignSearch() {
+        if (actionIsClicked) {
+            actionIsClicked = false
+            numberIsClicked = false
+            doubleInExpression = false
+            var firstNumber = ""
+            var secondNumber = ""
+            var indexBeforeOperator = 1
+            val exp = expression.value
+            firstNumber += exp[0]
+
+            while (!operationsArray.contains(exp[indexBeforeOperator])) {
+                firstNumber += exp[indexBeforeOperator]
+                indexBeforeOperator += 1
+                if (indexBeforeOperator > exp.length - 1) {
+                    expression.value = firstNumber
+                }
+            }
+
+            var indexAfterOperator = indexBeforeOperator + 1
+            while (indexAfterOperator <= exp.length - 1) {
+                secondNumber += exp[indexAfterOperator]
+                indexAfterOperator += 1
+            }
+            calculateExpression(exp, firstNumber, secondNumber, indexBeforeOperator)
+        } else {
+            return
         }
     }
 
 
-    private fun calculate() {
-        actionIsClicked = false
-        numberIsClicked = false
-        doubleInExpression = false
+    private fun calculateExpression(
+        exp: String, firstNumber: String, secondNumber: String, indexBeforeOperator: Int
+    ) {
         var result = ""
-        if (!isOperatorInExpression()) {
-            val exp = expression.value
-            var i = 1
-            var firstNumber = ""
-            firstNumber += exp[0]
-            while (!operationsArray.contains(exp[i])) {
-                firstNumber += exp[i]
-                i += 1
-                if (i > exp.length - 1) {
-                    expression.value = firstNumber
-                }
-            }
-            var secondNumber = ""
-            var j = i + 1
-            while (j <= exp.length - 1) {
-                secondNumber += exp[j]
-                j += 1
-            }
-            if (exp[i] == '+') {
-                result = (firstNumber.toDouble() + secondNumber.toDouble()).toString()
-            } else if (exp[i] == '-') {
-                result = (firstNumber.toDouble() - secondNumber.toDouble()).toString()
-            } else if (exp[i] == '*') {
-                result = (firstNumber.toDouble() * secondNumber.toDouble()).toString()
-            } else if (exp[i] == '/') {
-                if (secondNumber.toInt() == 0) {
-                    result = "Error"
-                    errorInString = true
-                } else {
-                    result = (firstNumber.toDouble() / secondNumber.toDouble()).toString()
-                }
-            }
-            expression.value = if (result.endsWith(".0")) {
-                result.substring(0, result.length - 2)
+        when (exp[indexBeforeOperator]) {
+            '+' -> result = (firstNumber.toDouble() + secondNumber.toDouble()).toString()
+            '-' -> result = (firstNumber.toDouble() - secondNumber.toDouble()).toString()
+            '×' -> result = (firstNumber.toDouble() * secondNumber.toDouble()).toString()
+            '÷' -> if (secondNumber.toInt() == 0) {
+                result = "Error"
+                errorInString = true
             } else {
-                result
+                result = (firstNumber.toDouble() / secondNumber.toDouble()).toString()
             }
+        }
+
+        if (result.endsWith(".0")) {
+            expression.value = result.substring(0, result.length - 2)
+        } else {
+            expression.value = result
         }
     }
 
     private fun toPercent() {
-        if (!errorInString) {
-            calculate()
-            var result: String = expression.value
-            result = (result.toDouble() * 0.01).toString()
-            expression.value = result
+        if (errorInString) {
+            return
         }
+        calculateSignSearch()
+        var result: String = expression.value
+        result = (result.toDouble() * 0.01).toString()
+        expression.value = result
     }
+
 
     private fun toPositive() {
         var newExpression = ""

@@ -49,7 +49,6 @@ fun DynamicTheme(
 
     MaterialTheme(
         colorScheme = colors,
-        typography = Typography,
         content = content
     )
 }

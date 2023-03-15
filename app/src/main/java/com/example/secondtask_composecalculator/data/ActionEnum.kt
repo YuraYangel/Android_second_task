@@ -9,7 +9,7 @@ enum class ActionEnum(val symbol: String) {
     DIVIDE("÷"),
     MULTIPLY("×"),
     CALCULATE("="),
-    DOUBLE(","),
+    DOUBLE("."),
     ZERO("0"),
     ONE("1"),
     TWO("2"),

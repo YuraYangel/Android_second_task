@@ -4,6 +4,10 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 
 const val EMPTY_STRING = ""
+const val ERROR = "Error"
+const val MINUS = '-'
+
+
 
 class CalculatorAction {
     private var numberIsClicked: Boolean = false
@@ -64,7 +68,7 @@ class CalculatorAction {
         if (doubleInExpression) {
             return
         }
-        expression.value += "."
+        expression.value += ActionEnum.DOUBLE.symbol
         doubleInExpression = true
     }
 
@@ -120,13 +124,13 @@ class CalculatorAction {
             ActionEnum.MULTIPLY -> result =
                 (firstNumber.toDouble() * secondNumber.toDouble()).toString()
             ActionEnum.DIVIDE -> if (secondNumber.toInt() == 0) {
-                result = "Error"
+                result = ERROR
                 errorInString = true
             } else {
                 result = (firstNumber.toDouble() / secondNumber.toDouble()).toString()
             }
             else -> {
-                result = "Error"
+                result = ERROR
             }
         }
 
@@ -157,13 +161,13 @@ class CalculatorAction {
     }
 
     private fun toNegative() {
-        var newExpression = "-"
+        var newExpression = ActionEnum.MINUS.symbol
         expression.value.forEach { newExpression += it }
         expression.value = newExpression
     }
 
     private fun signChange() {
-        if (expression.value[0] == '-') {
+        if (expression.value[0] == MINUS) {
             toPositive()
         } else {
             toNegative()

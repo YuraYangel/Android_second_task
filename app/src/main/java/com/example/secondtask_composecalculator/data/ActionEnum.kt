@@ -19,5 +19,16 @@ enum class ActionEnum(val symbol: String) {
     SIX("6"),
     SEVEN("7"),
     EIGHT("8"),
-    NINE("9"),
+    NINE("9");
+
+}
+
+fun getOperatorBySymbol(symbol: Char): ActionEnum? {
+    return when (symbol) {
+        '+' -> ActionEnum.PLUS
+        '-' -> ActionEnum.MINUS
+        '×' -> ActionEnum.MULTIPLY
+        '÷' -> ActionEnum.DIVIDE
+        else -> null
+    }
 }

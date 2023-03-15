@@ -3,29 +3,25 @@ package com.example.secondtask_composecalculator.data
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 
+const val EMPTY_STRING = ""
+
 class CalculatorAction {
     private var numberIsClicked: Boolean = false
     private var actionIsClicked: Boolean = false
     private var errorInString: Boolean = false
     private var doubleInExpression: Boolean = false
     private val operationsArray: List<Char> = listOf('-', '+', '×', '÷')
-    val expression: MutableState<String> = mutableStateOf("")
+    val expression: MutableState<String> = mutableStateOf(EMPTY_STRING)
 
     fun handleButtonClick(buttonSymbol: ActionEnum) {
         when (buttonSymbol) {
-            ActionEnum.PLUS, ActionEnum.DIVIDE, ActionEnum.MULTIPLY, ActionEnum.MINUS ->
-                addActionOnExpression(buttonSymbol)
-
+            ActionEnum.PLUS, ActionEnum.DIVIDE,
+            ActionEnum.MULTIPLY, ActionEnum.MINUS -> addActionOnExpression(buttonSymbol)
             ActionEnum.SIGN -> signChange()
-
             ActionEnum.CALCULATE -> calculateSignSearch()
-
             ActionEnum.PERCENT -> toPercent()
-
             ActionEnum.CLEAR -> clearExpression()
-
             ActionEnum.DOUBLE -> toDouble()
-
             else -> addNumberOnExpression(buttonSymbol)
         }
     }
@@ -60,7 +56,7 @@ class CalculatorAction {
         actionIsClicked = false
         numberIsClicked = false
         doubleInExpression = false
-        expression.value = ""
+        expression.value = EMPTY_STRING
     }
 
 
@@ -74,49 +70,56 @@ class CalculatorAction {
 
 
     private fun calculateSignSearch() {
-        if (actionIsClicked) {
-            actionIsClicked = false
-            numberIsClicked = false
-            doubleInExpression = false
-            var firstNumber = ""
-            var secondNumber = ""
-            var indexBeforeOperator = 1
-            val exp = expression.value
-            firstNumber += exp[0]
-
-            while (!operationsArray.contains(exp[indexBeforeOperator])) {
-                firstNumber += exp[indexBeforeOperator]
-                indexBeforeOperator += 1
-                if (indexBeforeOperator > exp.length - 1) {
-                    expression.value = firstNumber
-                }
-            }
-
-            var indexAfterOperator = indexBeforeOperator + 1
-            while (indexAfterOperator <= exp.length - 1) {
-                secondNumber += exp[indexAfterOperator]
-                indexAfterOperator += 1
-            }
-            calculateExpression(exp, firstNumber, secondNumber, indexBeforeOperator)
-        } else {
+        if (!actionIsClicked) {
             return
         }
+        actionIsClicked = false
+        numberIsClicked = false
+        doubleInExpression = false
+        var firstNumber = EMPTY_STRING
+        var secondNumber = EMPTY_STRING
+        var indexBeforeOperator = 1
+        val exp = expression.value
+        firstNumber += exp[0]
+
+        while (!operationsArray.contains(exp[indexBeforeOperator])) {
+            firstNumber += exp[indexBeforeOperator]
+            indexBeforeOperator += 1
+            if (indexBeforeOperator > exp.length - 1) {
+                expression.value = firstNumber
+            }
+        }
+
+        var indexAfterOperator = indexBeforeOperator + 1
+        while (indexAfterOperator <= exp.length - 1) {
+            secondNumber += exp[indexAfterOperator]
+            indexAfterOperator += 1
+        }
+        calculateExpression(exp, firstNumber, secondNumber, indexBeforeOperator)
     }
 
 
     private fun calculateExpression(
         exp: String, firstNumber: String, secondNumber: String, indexBeforeOperator: Int
     ) {
-        var result = ""
-        when (exp[indexBeforeOperator]) {
-            '+' -> result = (firstNumber.toDouble() + secondNumber.toDouble()).toString()
-            '-' -> result = (firstNumber.toDouble() - secondNumber.toDouble()).toString()
-            '×' -> result = (firstNumber.toDouble() * secondNumber.toDouble()).toString()
-            '÷' -> if (secondNumber.toInt() == 0) {
+
+        val result: String
+        val operator = getOperatorBySymbol(exp[indexBeforeOperator])
+        when (operator) {
+            ActionEnum.PLUS -> result =
+                (firstNumber.toDouble() + secondNumber.toDouble()).toString()
+            ActionEnum.MINUS -> result =
+                (firstNumber.toDouble() - secondNumber.toDouble()).toString()
+            ActionEnum.MULTIPLY -> result =
+                (firstNumber.toDouble() * secondNumber.toDouble()).toString()
+            ActionEnum.DIVIDE -> if (secondNumber.toInt() == 0) {
                 result = "Error"
                 errorInString = true
             } else {
                 result = (firstNumber.toDouble() / secondNumber.toDouble()).toString()
+            }
+            else -> {
+                result = "Error"
             }
         }
 
@@ -139,7 +142,7 @@ class CalculatorAction {
 
 
     private fun toPositive() {
-        var newExpression = ""
+        var newExpression = EMPTY_STRING
         for (i in 1 until expression.value.length) {
             newExpression += expression.value[i]
         }

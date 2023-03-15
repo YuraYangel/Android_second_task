@@ -37,9 +37,8 @@ fun CalculatorView() {
 
 }
 
-
 @Composable
-fun TextView() {
+private fun TextView() {
     Column(
         modifier = Modifier
             .background(MaterialTheme.colorScheme.background)
@@ -77,7 +76,7 @@ fun TextView() {
 
 
 @Composable
-fun KeyboardView() {
+private fun KeyboardView() {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -120,7 +119,7 @@ fun KeyboardView() {
 
 
 @Composable
-fun KeyboardRow(buttons: List<ActionEnum>) {
+private fun KeyboardRow(buttons: List<ActionEnum>) {
     var modifier: Modifier
     var fontSize: TextUnit
     Row(
@@ -172,7 +171,7 @@ fun KeyboardRow(buttons: List<ActionEnum>) {
 
 
 @Composable
-fun getButtonColor(buttonSymbol: ActionEnum): Color {
+private fun getButtonColor(buttonSymbol: ActionEnum): Color {
     when (buttonSymbol) {
         ActionEnum.PLUS, ActionEnum.DIVIDE, ActionEnum.MINUS, ActionEnum.CALCULATE, ActionEnum.MULTIPLY -> {
             return MaterialTheme.colorScheme.primary
@@ -185,7 +184,7 @@ fun getButtonColor(buttonSymbol: ActionEnum): Color {
 
 // сделал эти методы Composable, потому что копилятор не даёт возвращать цвета из Material3, если функция не Composable
 @Composable
-fun getFontColor(buttonSymbol: ActionEnum): Color {
+private fun getFontColor(buttonSymbol: ActionEnum): Color {
     when (buttonSymbol) {
         ActionEnum.PLUS, ActionEnum.DIVIDE, ActionEnum.MINUS, ActionEnum.CALCULATE, ActionEnum.MULTIPLY -> {
             return MaterialTheme.colorScheme.onPrimary
@@ -196,7 +195,7 @@ fun getFontColor(buttonSymbol: ActionEnum): Color {
     }
 }
 
-fun changeDelColor(): Color {
+private fun changeDelColor(): Color {
     val color: Color
     color = when (action.expression.value) {
         "" -> Color.DarkGray

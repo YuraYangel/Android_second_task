@@ -1,6 +1,5 @@
 package com.example.secondtask_composecalculator.ui.theme
 
-import androidx.compose.material3.Typography
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import com.example.secondtask_composecalculator.R
@@ -8,9 +7,4 @@ import com.example.secondtask_composecalculator.R
 
 val GoogleSansMedium = FontFamily(
     Font(R.font.googlesans_medium)
-)
-
-
-val Typography = Typography(
-
 )

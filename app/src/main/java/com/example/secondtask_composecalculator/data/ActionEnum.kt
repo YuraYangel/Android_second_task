@@ -1,6 +1,6 @@
 package com.example.secondtask_composecalculator.data
 
-enum class ActionEnum(var symbol: String) {
+enum class ActionEnum(val symbol: String) {
     PLUS("+"),
     MINUS("-"),
     CLEAR("AC"),
@@ -9,7 +9,7 @@ enum class ActionEnum(var symbol: String) {
     DIVIDE("÷"),
     MULTIPLY("×"),
     CALCULATE("="),
-    DOUBLE(","),
+    DOUBLE("."),
     ZERO("0"),
     ONE("1"),
     TWO("2"),
@@ -19,5 +19,16 @@ enum class ActionEnum(var symbol: String) {
     SIX("6"),
     SEVEN("7"),
     EIGHT("8"),
-    NINE("9"),
+    NINE("9");
+
+}
+
+fun getOperatorBySymbol(symbol: Char): ActionEnum? {
+    return when (symbol) {
+        '+' -> ActionEnum.PLUS
+        '-' -> ActionEnum.MINUS
+        '×' -> ActionEnum.MULTIPLY
+        '÷' -> ActionEnum.DIVIDE
+        else -> null
+    }
 }

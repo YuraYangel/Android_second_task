@@ -24,8 +24,6 @@ import com.example.calculatorrefactoring.ui.theme.MediumFontSize
 
 @Composable
 fun ButtonSection(
-    firstNumber: MutableState<String>,
-    secondNumber: MutableState<String>,
     operator: MutableState<String>,
     calculatorViewModel: CalculatorViewModel
 ) {
@@ -42,19 +40,12 @@ fun ButtonSection(
         KeyBoard(
             buttonRow = buttonRow,
             calculatorViewModel = calculatorViewModel,
-            firstNumber = firstNumber,
-            secondNumber = secondNumber,
-            operator = operator
-            
         )
     }
 
     EqualRow(
         buttonRow = equalButton,
         calculatorViewModel = calculatorViewModel,
-        firstNumber = firstNumber,
-        secondNumber = secondNumber,
-        operator = operator
     )
 
 }
@@ -62,9 +53,6 @@ fun ButtonSection(
 
 @Composable
 fun EqualRow(
-    firstNumber: MutableState<String>,
-    secondNumber: MutableState<String>,
-    operator: MutableState<String>,
     buttonRow: List<SymbolEnum>,
     calculatorViewModel: CalculatorViewModel
 ) {
@@ -84,8 +72,6 @@ fun EqualRow(
                 shape = RoundedCornerShape(size = 28.dp),
                 onClick = {
                     calculatorViewModel.getSymbolAction(
-                        firstNumber = firstNumber.value,
-                        secondNumber = secondNumber.value,
                         actionSymbol = it,
                     )
                 },
@@ -105,9 +91,6 @@ fun EqualRow(
 
 @Composable
 fun KeyBoard(
-    firstNumber: MutableState<String>,
-    secondNumber: MutableState<String>,
-    operator: MutableState<String>,
     buttonRow: List<SymbolEnum>,
     calculatorViewModel: CalculatorViewModel
 ) {
@@ -125,8 +108,6 @@ fun KeyBoard(
                 shape = RoundedCornerShape(size = 28.dp),
                 onClick = {
                     calculatorViewModel.getSymbolAction(
-                        firstNumber = firstNumber.value,
-                        secondNumber = secondNumber.value,
                         actionSymbol = it,
                     )
                 },

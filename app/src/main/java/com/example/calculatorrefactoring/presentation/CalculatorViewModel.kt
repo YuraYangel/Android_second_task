@@ -7,6 +7,7 @@ import com.example.calculatorrefactoring.data.CalculatorRepository
 import com.example.calculatorrefactoring.data.SymbolEnum
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 @HiltViewModel
@@ -15,33 +16,49 @@ class CalculatorViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _result = MutableStateFlow("")
-    val result = _result
+    val result: StateFlow<String> = _result
 
-    private val _expressionState = MutableStateFlow(false)
-    val expressionState = _expressionState
+    private val _expressionState = MutableStateFlow(true)
+    val expressionState: StateFlow<Boolean> = _expressionState
+
+    private val _operatorState = MutableStateFlow("")
+    val operatorState: StateFlow<String> = _operatorState
+
+    private val _firstNumber = MutableStateFlow("")
+    val firstNumber: StateFlow<String> = _firstNumber
+
+    private val _secondNumber = MutableStateFlow("")
+    val secondNumber: StateFlow<String> = _secondNumber
 
 
 
     fun getSymbolAction(
-        firstNumber: String, secondNumber: String, actionSymbol: SymbolEnum,
+      actionSymbol: SymbolEnum,
     ) {
         if (actionSymbol.symbolIsOperator(actionSymbol.symbol)) {
+            _operatorState.value += actionSymbol.symbol
             _result.value += actionSymbol.symbol
-            _expressionState.value = false
         }
 
         if (!actionSymbol.symbolIsOperator(actionSymbol.symbol) && !actionSymbol.symbolIsAction(
                 actionSymbol.symbol
             )
         ) {
-            result.value += actionSymbol.symbol
+            _result.value += actionSymbol.symbol
+            if (expressionState.value){
+                _firstNumber.value += actionSymbol.symbol
+                _expressionState.value = false
+            }
+            else{
+                _secondNumber.value += actionSymbol.symbol
+            }
         } else {
             when (actionSymbol) {
                 SymbolEnum.EQUAL -> {
                     calculateExpression(
-                        firstNumber,
-                        secondNumber,
-                        actionSymbol.symbol
+                        firstNumber.value,
+                        secondNumber.value,
+                        operatorState.value
                     )
                     _expressionState.value = true
                 }
@@ -55,6 +72,10 @@ class CalculatorViewModel @Inject constructor(
 
     private fun calculateExpression(firstNumber: String, secondNumber: String, operator: String) {
         _result.value = calculatorRepository.calculate(firstNumber, secondNumber, operator)
+        _firstNumber.value = calculatorRepository.calculate(firstNumber, secondNumber, operator)
+        _secondNumber.value = ""
+        _operatorState.value = ""
+        _expressionState.value = true
     }
 
 

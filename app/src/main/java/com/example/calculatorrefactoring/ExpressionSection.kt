@@ -32,13 +32,6 @@ fun ExpressionSection(calculatorViewModel: CalculatorViewModel) {
     val resultState by calculatorViewModel.result.collectAsState()
     val expressionState by calculatorViewModel.expressionState.collectAsState()
 
-    val firstNumber = if (expressionState) remember { mutableStateOf("") } else remember {
-        mutableStateOf(resultState)
-    }
-    val secondNumber = if (!expressionState) remember { mutableStateOf("") } else remember {
-        mutableStateOf(resultState)
-    }
-
     val symbol = remember { mutableStateOf("") }
 
 
@@ -80,8 +73,6 @@ fun ExpressionSection(calculatorViewModel: CalculatorViewModel) {
         Divider(color = Color.Gray, thickness = 1.dp)
         Spacer(modifier = Modifier.padding(4.dp))
         ButtonSection(
-            firstNumber = firstNumber,
-            secondNumber = secondNumber,
             operator = symbol,
             calculatorViewModel = calculatorViewModel
         )

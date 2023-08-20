@@ -1,7 +1,6 @@
 package com.example.calculatorrefactoring.data.di
 
-import com.example.calculatorrefactoring.data.CalculatorRepository
-import com.example.calculatorrefactoring.data.SymbolEnum
+import com.example.calculatorrefactoring.domain.CalculatorRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

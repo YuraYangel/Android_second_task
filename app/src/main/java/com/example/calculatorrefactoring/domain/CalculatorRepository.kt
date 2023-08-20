@@ -1,4 +1,4 @@
-package com.example.calculatorrefactoring.data
+package com.example.calculatorrefactoring.domain
 
 import com.example.calculatorrefactoring.data.utils.Constants
 import javax.inject.Singleton

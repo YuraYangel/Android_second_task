@@ -10,6 +10,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.example.calculatorrefactoring.presentation.CalculatorViewModel
 import com.example.calculatorrefactoring.ui.theme.CalculatorRefactoringTheme
+import com.example.calculatorrefactoring.screen.ExpressionSection
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -26,7 +27,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    ExpressionSection(calculatorViewModel = calculatorViewModel)
+                    ExpressionSection()
                 }
             }
         }

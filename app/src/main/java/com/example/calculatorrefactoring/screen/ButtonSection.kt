@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -18,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.calculatorrefactoring.data.utils.SymbolEnum
 import com.example.calculatorrefactoring.presentation.CalculatorViewModel
+import com.example.calculatorrefactoring.ui.theme.DynamicTheme
 import com.example.calculatorrefactoring.ui.theme.GoogleSansBold
 import com.example.calculatorrefactoring.ui.theme.MediumFontSize
 
@@ -32,34 +34,37 @@ fun ButtonSection(calculatorViewModel: CalculatorViewModel) {
     )
     val lastButtonRow = listOf(SymbolEnum.ZERO, SymbolEnum.DOT, SymbolEnum.EQUAL)
 
-
-    buttonSymbols.forEach {
-        MainButtonRow(
-            buttonSymbol = it,
-            calculatorViewModel = calculatorViewModel
-        )
-    }
-
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceEvenly
-    ) {
-        for (i in 0 until 3) {
-            val buttonWeight: Float = if (lastButtonRow[i] == SymbolEnum.ZERO) 2f else 1f
-            CalculatorButton(
-                symbolEnum = lastButtonRow[i],
-                modifier = Modifier
-                    .weight(buttonWeight)
-                    .aspectRatio(buttonWeight)
-                    .padding(top = 8.dp),
-                onClick = {
-                    calculatorViewModel.performAction(lastButtonRow[i])
-                },
+    DynamicTheme {
+        buttonSymbols.forEach {
+            MainButtonRow(
+                buttonSymbol = it,
+                calculatorViewModel = calculatorViewModel
             )
-            Spacer(modifier = Modifier.width(8.dp))
+        }
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            for (i in 0 until 3) {
+                val buttonWeight: Float = if (lastButtonRow[i] == SymbolEnum.ZERO) 2f else 1f
+                CalculatorButton(
+                    color = MaterialTheme.colorScheme.background,
+                    symbolEnum = lastButtonRow[i],
+                    modifier = Modifier
+                        .weight(buttonWeight)
+                        .aspectRatio(buttonWeight)
+                        .padding(top = 8.dp),
+                    onClick = {
+                        calculatorViewModel.performAction(lastButtonRow[i])
+                    },
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+            }
         }
     }
+
 }
 
 
@@ -76,6 +81,7 @@ fun MainButtonRow(
 
         for (i in 0 until 4) {
             CalculatorButton(
+                color = MaterialTheme.colorScheme.background,
                 onClick = { calculatorViewModel.performAction(buttonSymbol[i]) },
                 symbolEnum = buttonSymbol[i],
                 modifier = Modifier
@@ -92,6 +98,7 @@ fun MainButtonRow(
 
 @Composable
 fun CalculatorButton(
+    color: Color,
     symbolEnum: SymbolEnum,
     modifier: Modifier,
     onClick: () -> Unit
@@ -105,7 +112,7 @@ fun CalculatorButton(
     ) {
         Text(
             text = symbolEnum.symbol,
-            color = Color.White,
+            color = color,
             fontSize = MediumFontSize,
             fontFamily = GoogleSansBold
         )

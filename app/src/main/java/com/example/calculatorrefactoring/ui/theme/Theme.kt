@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
@@ -38,33 +39,35 @@ private val LightColorScheme = lightColorScheme(
 )
 
 @Composable
-fun CalculatorRefactoringTheme(
+fun DynamicTheme(
+    isDynamicColor: Boolean = true,
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
 
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
-    }
-    val view = LocalView.current
-    if (!view.isInEditMode) {
-        SideEffect {
-            val window = (view.context as Activity).window
-            window.statusBarColor = colorScheme.primary.toArgb()
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
+    val systemUiController = rememberSystemUiController()
+    val dynamicColor = isDynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+    val colors = if (darkTheme) {
+        if (dynamicColor) {
+            dynamicDarkColorScheme(LocalContext.current)
+        } else {
+            DarkColorScheme
         }
+    } else {
+        if (dynamicColor) {
+            dynamicLightColorScheme(LocalContext.current)
+        }
+        LightColorScheme
+    }
+    SideEffect{
+        systemUiController.setSystemBarsColor(
+            color = colors.background,
+            darkIcons = false
+        )
     }
 
     MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
+        colorScheme = colors,
         content = content
     )
 }

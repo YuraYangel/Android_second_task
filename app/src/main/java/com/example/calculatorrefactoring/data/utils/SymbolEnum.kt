@@ -20,4 +20,17 @@ enum class SymbolEnum(val symbol: String) {
     CLEAR("C"),
     PERCENT("%"),
     NEGATIVE("±");
+
+
+    fun symbolIsAction(symbol: String) = when (symbol) {
+        CLEAR.symbol, PERCENT.symbol, NEGATIVE.symbol, DOT.symbol, EQUAL.symbol -> true
+        else -> false
+    }
+
+    fun symbolIsOperator(symbol: String) = when (symbol) {
+        PLUS.symbol, MINUS.symbol, MULTIPLY.symbol, DIVIDE.symbol -> true
+        else -> false
+    }
+
+
 }

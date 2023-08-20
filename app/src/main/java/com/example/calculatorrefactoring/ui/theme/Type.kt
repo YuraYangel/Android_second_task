@@ -12,7 +12,7 @@ val GoogleSansBold = FontFamily(
     Font(R.font.google_sans_bold)
 )
 val MediumFontSize = 28.sp
-val LargeFontSize = 57.sp
+val LargeFontSize = 50.sp
 
 // Set of Material typography styles to start with
 val Typography = Typography(

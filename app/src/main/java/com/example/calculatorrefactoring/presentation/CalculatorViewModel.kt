@@ -13,25 +13,41 @@ class CalculatorViewModel @Inject constructor(
     private val calculatorRepository: CalculatorRepositoryImpl,
 ) : ViewModel() {
 
-    private val _resultState = MutableStateFlow<CalculatorState>(CalculatorState())
+    private val _resultState = MutableStateFlow(CalculatorState())
     val resultState: StateFlow<CalculatorState> = _resultState
 
-
-    fun onAction(action: SymbolEnum){
-        when (action){
-            SymbolEnum.EQUAL -> calculatorRepository.calculate(_resultState)
-            SymbolEnum.PLUS -> calculatorRepository.enterOperation(action, _resultState)
-            SymbolEnum.MINUS -> calculatorRepository.enterOperation(action, _resultState)
-            SymbolEnum.MULTIPLY -> calculatorRepository.enterOperation(action, _resultState)
-            SymbolEnum.DIVIDE -> calculatorRepository.enterOperation(action, _resultState)
-            else -> calculatorRepository.enterNumber(action, _resultState)
-        }
-
-
-
+    private fun performCalculation() {
+        calculatorRepository.calculate(_resultState)
     }
 
+    private fun inputNumber(number: SymbolEnum) {
+        calculatorRepository.enterNumber(number, _resultState)
+    }
 
+    private fun inputOperator(operation: SymbolEnum) {
+        calculatorRepository.enterOperation(operation, _resultState)
+    }
+
+    private fun inputDecimal() {
+        calculatorRepository.enterDecimal(_resultState)
+    }
+
+    private fun clearExpression() {
+        _resultState.value = CalculatorState()
+    }
+
+    fun performAction(action: SymbolEnum) {
+        when (action) {
+            SymbolEnum.EQUAL -> performCalculation()
+            SymbolEnum.PLUS -> inputOperator(action)
+            SymbolEnum.MINUS -> inputOperator(action)
+            SymbolEnum.MULTIPLY -> inputOperator(action)
+            SymbolEnum.DIVIDE -> inputOperator(action)
+            SymbolEnum.CLEAR -> clearExpression()
+            SymbolEnum.DOT -> inputDecimal()
+            else -> inputNumber(action)
+        }
+    }
 
 
 }

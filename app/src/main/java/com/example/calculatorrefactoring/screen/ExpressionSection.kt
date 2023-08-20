@@ -1,6 +1,5 @@
 package com.example.calculatorrefactoring.screen
 
-import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -19,12 +18,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.calculatorrefactoring.R
-import com.example.calculatorrefactoring.data.utils.Constants
-import com.example.calculatorrefactoring.domain.entity.CalculatorAction
+import com.example.calculatorrefactoring.data.utils.Constants.EMPTY_STRING
 import com.example.calculatorrefactoring.presentation.CalculatorViewModel
 import com.example.calculatorrefactoring.ui.theme.GoogleSansBold
 import com.example.calculatorrefactoring.ui.theme.LargeFontSize
@@ -53,9 +50,7 @@ fun ExpressionSection(calculatorViewModel: CalculatorViewModel) {
         )
         Spacer(modifier = Modifier.height(expressionSectionPadding))
         Text(
-            text = resultState.firstNumber + (resultState.operator?.symbol
-                ?: "") + resultState.secondNumber,
-            maxLines = 1,
+            text = if (resultState.secondNumber == EMPTY_STRING) resultState.firstNumber else resultState.secondNumber,
             color = Color.White,
             fontSize = LargeFontSize,
             fontFamily = GoogleSansBold

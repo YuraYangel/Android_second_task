@@ -11,8 +11,8 @@ import javax.inject.Singleton
 class CalculatorRepositoryImpl : CalculatorRepository {
 
     override fun calculate(resultState: MutableStateFlow<CalculatorState>) {
-        val firstNumber = resultState.value.firstNumber.toDoubleOrNull()
-        val secondNumber = resultState.value.secondNumber.toDoubleOrNull()
+        val firstNumber = resultState.value.firstNumber.toFloatOrNull()
+        val secondNumber = resultState.value.secondNumber.toFloatOrNull()
         if (firstNumber != null || secondNumber != null) {
             val result = when (resultState.value.operator) {
                 SymbolEnum.PLUS -> firstNumber!! + secondNumber!!
@@ -29,6 +29,23 @@ class CalculatorRepositoryImpl : CalculatorRepository {
             )
         }
     }
+
+    fun enterDecimal(
+        resultState: MutableStateFlow<CalculatorState>
+    ) {
+        if(resultState.value.operator == null && !resultState.value.firstNumber.contains(".") && resultState.value.firstNumber.isNotBlank()) {
+            resultState.value = resultState.value.copy(
+                firstNumber = resultState.value.firstNumber + "."
+            )
+            return
+        } else if(!resultState.value.secondNumber.contains(".") && resultState.value.secondNumber.isNotBlank()) {
+            resultState.value = resultState.value.copy(
+                secondNumber = resultState.value.secondNumber + "."
+            )
+        }
+    }
+
+
 
 
     override fun enterNumber(

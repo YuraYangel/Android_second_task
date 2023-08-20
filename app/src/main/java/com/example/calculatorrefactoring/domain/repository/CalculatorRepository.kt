@@ -7,6 +7,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 
 interface CalculatorRepository{
 
+    fun changeSing(resultState: MutableStateFlow<CalculatorState>)
+
     fun percentageNumber(resultState: MutableStateFlow<CalculatorState>)
 
     fun deleteLastCharacter(resultState: MutableStateFlow<CalculatorState>)

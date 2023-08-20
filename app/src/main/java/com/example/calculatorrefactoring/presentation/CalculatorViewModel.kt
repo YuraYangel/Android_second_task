@@ -2,6 +2,7 @@ package com.example.calculatorrefactoring.presentation
 
 import androidx.lifecycle.ViewModel
 import com.example.calculatorrefactoring.data.CalculatorRepositoryImpl
+import com.example.calculatorrefactoring.data.utils.Constants
 import com.example.calculatorrefactoring.data.utils.SymbolEnum
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,11 +30,28 @@ class CalculatorViewModel @Inject constructor(
     }
 
     private fun inputDecimal() {
+        if (_resultState.value.firstNumber.contains(Constants.ARITHMETIC_ERROR)) {
+            clearExpression()
+        }
         calculatorRepository.enterDecimal(_resultState)
     }
 
     private fun clearExpression() {
         _resultState.value = CalculatorState()
+    }
+
+    private fun percentageNumber(){
+        if (_resultState.value.firstNumber.contains(Constants.ARITHMETIC_ERROR)) {
+            clearExpression()
+        }
+        calculatorRepository.percentageNumber(_resultState)
+    }
+
+    private fun changeSign(){
+        if (_resultState.value.firstNumber.contains(Constants.ARITHMETIC_ERROR)) {
+            clearExpression()
+        }
+        calculatorRepository.changeSing(_resultState)
     }
 
     fun performAction(action: SymbolEnum) {
@@ -45,6 +63,8 @@ class CalculatorViewModel @Inject constructor(
             SymbolEnum.DIVIDE -> inputOperator(action)
             SymbolEnum.CLEAR -> clearExpression()
             SymbolEnum.DOT -> inputDecimal()
+            SymbolEnum.PERCENT -> percentageNumber()
+            SymbolEnum.NEGATIVE -> changeSign()
             else -> inputNumber(action)
         }
     }

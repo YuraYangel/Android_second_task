@@ -11,6 +11,38 @@ import javax.inject.Singleton
 @Singleton
 class CalculatorRepositoryImpl : CalculatorRepository {
 
+    override fun changeSing(resultState: MutableStateFlow<CalculatorState>) {
+        when {
+            resultState.value.secondNumber.isNotBlank() -> resultState.value =
+                resultState.value.copy(
+                    secondNumber = (resultState.value.secondNumber.toFloat() * -1).toString()
+                )
+
+            resultState.value.firstNumber.isNotBlank() -> resultState.value =
+                resultState.value.copy(
+                    firstNumber = (resultState.value.firstNumber.toFloat() * -1).toString()
+                )
+        }
+    }
+
+
+    override fun percentageNumber(
+        resultState: MutableStateFlow<CalculatorState>
+    ) {
+        when {
+            resultState.value.secondNumber.isNotBlank() -> resultState.value =
+                resultState.value.copy(
+                    secondNumber = resultState.value.secondNumber.toFloat().div(100).toString()
+                )
+
+            resultState.value.firstNumber.isNotBlank() -> resultState.value =
+                resultState.value.copy(
+                    firstNumber = resultState.value.firstNumber.toFloat().div(100).toString()
+                )
+        }
+    }
+
+
     override fun calculate(resultState: MutableStateFlow<CalculatorState>) {
         val firstNumber = resultState.value.firstNumber.toFloatOrNull()
         val secondNumber = resultState.value.secondNumber.toFloatOrNull()
@@ -56,7 +88,6 @@ class CalculatorRepositoryImpl : CalculatorRepository {
                 resultState.value.copy(
                     secondNumber = resultState.value.secondNumber.dropLast(1)
                 )
-
             resultState.value.firstNumber.isNotBlank() -> resultState.value =
                 resultState.value.copy(
                     firstNumber = resultState.value.firstNumber.dropLast(1)

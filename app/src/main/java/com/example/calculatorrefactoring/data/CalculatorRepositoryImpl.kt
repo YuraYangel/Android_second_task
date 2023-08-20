@@ -11,7 +11,7 @@ import javax.inject.Singleton
 @Singleton
 class CalculatorRepositoryImpl : CalculatorRepository {
 
-    override fun changeSing(resultState: MutableStateFlow<CalculatorState>) {
+    override suspend fun changeSing(resultState: MutableStateFlow<CalculatorState>) {
         when {
             resultState.value.secondNumber.isNotBlank() -> resultState.value =
                 resultState.value.copy(
@@ -26,7 +26,7 @@ class CalculatorRepositoryImpl : CalculatorRepository {
     }
 
 
-    override fun percentageNumber(
+    override suspend fun percentageNumber(
         resultState: MutableStateFlow<CalculatorState>
     ) {
         when {
@@ -43,7 +43,7 @@ class CalculatorRepositoryImpl : CalculatorRepository {
     }
 
 
-    override fun calculate(resultState: MutableStateFlow<CalculatorState>) {
+    override suspend fun calculate(resultState: MutableStateFlow<CalculatorState>) {
         val firstNumber = resultState.value.firstNumber.toFloatOrNull()
         val secondNumber = resultState.value.secondNumber.toFloatOrNull()
         if (firstNumber != null && secondNumber != null) {
@@ -63,7 +63,7 @@ class CalculatorRepositoryImpl : CalculatorRepository {
         }
     }
 
-    override fun enterDecimal(
+    override suspend fun enterDecimal(
         resultState: MutableStateFlow<CalculatorState>
     ) {
         if (resultState.value.operator == null && !resultState.value.firstNumber.contains(SymbolEnum.DOT.symbol)
@@ -82,7 +82,7 @@ class CalculatorRepositoryImpl : CalculatorRepository {
         }
     }
 
-    override fun deleteLastCharacter(resultState: MutableStateFlow<CalculatorState>) {
+    override suspend fun deleteLastCharacter(resultState: MutableStateFlow<CalculatorState>) {
         when {
             resultState.value.secondNumber.isNotBlank() -> resultState.value =
                 resultState.value.copy(
@@ -96,7 +96,7 @@ class CalculatorRepositoryImpl : CalculatorRepository {
     }
 
 
-    override fun enterNumber(
+    override suspend fun enterNumber(
         number: SymbolEnum,
         resultState: MutableStateFlow<CalculatorState>
     ) {
@@ -125,7 +125,7 @@ class CalculatorRepositoryImpl : CalculatorRepository {
         )
     }
 
-    override fun enterOperation(
+    override suspend fun enterOperation(
         operation: SymbolEnum,
         resultState: MutableStateFlow<CalculatorState>
     ) {

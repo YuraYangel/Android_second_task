@@ -7,17 +7,17 @@ import kotlinx.coroutines.flow.MutableStateFlow
 
 interface CalculatorRepository{
 
-    fun changeSing(resultState: MutableStateFlow<CalculatorState>)
+    suspend fun changeSing(resultState: MutableStateFlow<CalculatorState>)
 
-    fun percentageNumber(resultState: MutableStateFlow<CalculatorState>)
+    suspend fun percentageNumber(resultState: MutableStateFlow<CalculatorState>)
 
-    fun deleteLastCharacter(resultState: MutableStateFlow<CalculatorState>)
+    suspend fun deleteLastCharacter(resultState: MutableStateFlow<CalculatorState>)
 
-    fun enterNumber(number: SymbolEnum, resultState: MutableStateFlow<CalculatorState>)
+    suspend fun enterNumber(number: SymbolEnum, resultState: MutableStateFlow<CalculatorState>)
 
-    fun enterDecimal(resultState: MutableStateFlow<CalculatorState>)
+    suspend fun enterDecimal(resultState: MutableStateFlow<CalculatorState>)
 
-    fun enterOperation(operation: SymbolEnum, resultState: MutableStateFlow<CalculatorState>)
+    suspend fun enterOperation(operation: SymbolEnum, resultState: MutableStateFlow<CalculatorState>)
 
-    fun calculate(resultState: MutableStateFlow<CalculatorState>)
+    suspend fun calculate(resultState: MutableStateFlow<CalculatorState>)
 }

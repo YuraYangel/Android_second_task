@@ -1,12 +1,14 @@
 package com.example.calculatorrefactoring.presentation
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.calculatorrefactoring.data.CalculatorRepositoryImpl
 import com.example.calculatorrefactoring.data.utils.Constants
 import com.example.calculatorrefactoring.data.utils.SymbolEnum
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -18,40 +20,54 @@ class CalculatorViewModel @Inject constructor(
     val resultState: StateFlow<CalculatorState> = _resultState
 
     private fun performCalculation() {
-        calculatorRepository.calculate(_resultState)
+        viewModelScope.launch {
+            calculatorRepository.calculate(_resultState)
+        }
     }
 
     private fun inputNumber(number: SymbolEnum) {
-        calculatorRepository.enterNumber(number, _resultState)
+        viewModelScope.launch {
+            calculatorRepository.enterNumber(number, _resultState)
+        }
     }
 
     private fun inputOperator(operation: SymbolEnum) {
-        calculatorRepository.enterOperation(operation, _resultState)
+        viewModelScope.launch {
+            calculatorRepository.enterOperation(operation, _resultState)
+        }
     }
 
     private fun inputDecimal() {
-        if (_resultState.value.firstNumber.contains(Constants.ARITHMETIC_ERROR)) {
-            clearExpression()
+        viewModelScope.launch {
+            if (_resultState.value.firstNumber.contains(Constants.ARITHMETIC_ERROR)) {
+                clearExpression()
+            }
+
+            calculatorRepository.enterDecimal(_resultState)
         }
-        calculatorRepository.enterDecimal(_resultState)
     }
 
     private fun clearExpression() {
         _resultState.value = CalculatorState()
     }
 
-    private fun percentageNumber(){
+    private fun percentageNumber() {
         if (_resultState.value.firstNumber.contains(Constants.ARITHMETIC_ERROR)) {
             clearExpression()
         }
-        calculatorRepository.percentageNumber(_resultState)
+        viewModelScope.launch {
+            calculatorRepository.percentageNumber(_resultState)
+        }
     }
 
-    private fun changeSign(){
+    private fun changeSign() {
         if (_resultState.value.firstNumber.contains(Constants.ARITHMETIC_ERROR)) {
             clearExpression()
         }
-        calculatorRepository.changeSing(_resultState)
+        viewModelScope.launch {
+            calculatorRepository.changeSing(_resultState)
+        }
+
     }
 
     fun performAction(action: SymbolEnum) {
@@ -70,7 +86,9 @@ class CalculatorViewModel @Inject constructor(
     }
 
     fun deleteLastCharacter() {
-        calculatorRepository.deleteLastCharacter(_resultState)
+        viewModelScope.launch {
+            calculatorRepository.deleteLastCharacter(_resultState)
+        }
     }
 
 

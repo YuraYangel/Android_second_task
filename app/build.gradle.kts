@@ -54,7 +54,9 @@ android {
 
 dependencies {
     val hiltVersion = "2.47"
+    val composeLifeCycle = "2.6.1"
 
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:$composeLifeCycle")
     implementation("com.google.dagger:hilt-android:$hiltVersion")
     implementation("androidx.core:core-ktx:1.10.1")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")

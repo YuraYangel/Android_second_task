@@ -57,7 +57,7 @@ fun ExpressionSection(calculatorViewModel: CalculatorViewModel) {
         )
         Spacer(modifier = Modifier.height(expressionSectionPadding))
         IconButton(
-            onClick = { /*TODO*/ },
+            onClick = { calculatorViewModel.deleteLastCharacter() },
 
             modifier = Modifier
                 .align(alignment = Alignment.End)

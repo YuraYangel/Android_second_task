@@ -49,5 +49,9 @@ class CalculatorViewModel @Inject constructor(
         }
     }
 
+    fun deleteLastCharacter() {
+        calculatorRepository.deleteLastCharacter(_resultState)
+    }
+
 
 }

@@ -7,7 +7,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 
 interface CalculatorRepository{
 
+    fun percentageNumber(resultState: MutableStateFlow<CalculatorState>)
+
+    fun deleteLastCharacter(resultState: MutableStateFlow<CalculatorState>)
+
     fun enterNumber(number: SymbolEnum, resultState: MutableStateFlow<CalculatorState>)
+
+    fun enterDecimal(resultState: MutableStateFlow<CalculatorState>)
 
     fun enterOperation(operation: SymbolEnum, resultState: MutableStateFlow<CalculatorState>)
 

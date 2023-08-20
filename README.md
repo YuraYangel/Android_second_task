@@ -1,22 +1,22 @@
-# Калькулятор для Android.
+# Android Calculator
+![Static Badge](https://img.shields.io/badge/platform-Android-deep_green)
+![Static Badge](https://img.shields.io/badge/lastet_release-v1.0.0-orange)
+![Static Badge](https://img.shields.io/badge/kotlin-v1.9.0-purple)
 
-## Использованные технологии
-* Jetpack Compose
-* Material 3
+# 📖 About
+## 💻 Tech Stack
+- Jetpack Compose
+- Dependency Injection with Dagger-Hilt
+- Kotlin Coroutines
+- Accompanist
+- Material3
+- Clean Architecture
+- MVVM
 
-
-
-## Скриншоты
-<p>
-    <img src="image/firstScreen.png" width="250" height="540">
-    <img src="image/secondScreen.png" width="250" height="540">
-    <img src="image/thirdScreens.png" width="250" height="540">
-</p>
-
-## Поддержка динамических тем для Android 13.0
-
-<p>
-    <img src="image/BlueTheme.png" width="250" height="540">
-    <img src="image/GreenTheme.png" width="250" height="540">
-    <img src="image/ThemeScreens.png" width="250" height="540">
+## 📱 Screenshots
+⬜ Dynamic Theme for Android 13+
+<p align="center">
+    <img src="image/LightTheme.png" width="200">
+    <img src="image/PurpleDarkTheme.png" width="200">
+    <img src="image/GreenDarkTheme.png" width="200">
 </p>

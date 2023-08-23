@@ -56,13 +56,19 @@ dependencies {
     val hiltVersion = "2.47"
     val composeLifeCycle = "2.6.1"
     val accompanistUiControllerVersion = "0.31.6-rc"
+    val coreKtx = "1.10.1"
+    val runtimeVersion = "2.6.1"
+    val composeActivityVersion = "1.7.2"
+
+
+
 
     implementation("androidx.lifecycle:lifecycle-runtime-compose:$composeLifeCycle")
     implementation("com.google.dagger:hilt-android:$hiltVersion")
     implementation("com.google.accompanist:accompanist-systemuicontroller:$accompanistUiControllerVersion")
-    implementation("androidx.core:core-ktx:1.10.1")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
-    implementation("androidx.activity:activity-compose:1.7.2")
+    implementation("androidx.core:core-ktx:$coreKtx")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:$runtimeVersion")
+    implementation("androidx.activity:activity-compose:$composeActivityVersion")
     implementation(platform("androidx.compose:compose-bom:2023.03.00"))
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")

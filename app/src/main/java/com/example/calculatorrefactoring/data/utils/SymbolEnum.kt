@@ -31,6 +31,4 @@ enum class SymbolEnum(val symbol: String) {
         PLUS.symbol, MINUS.symbol, MULTIPLY.symbol, DIVIDE.symbol -> true
         else -> false
     }
-
-
 }

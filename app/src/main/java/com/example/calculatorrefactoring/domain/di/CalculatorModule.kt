@@ -1,7 +1,6 @@
 package com.example.calculatorrefactoring.domain.di
 
 import com.example.calculatorrefactoring.data.CalculatorRepositoryImpl
-import com.example.calculatorrefactoring.domain.repository.CalculatorRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

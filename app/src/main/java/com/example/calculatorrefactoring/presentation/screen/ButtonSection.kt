@@ -1,4 +1,4 @@
-package com.example.calculatorrefactoring.screen
+package com.example.calculatorrefactoring.presentation.screen
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement

@@ -1,4 +1,4 @@
-package com.example.calculatorrefactoring.screen
+package com.example.calculatorrefactoring.presentation.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

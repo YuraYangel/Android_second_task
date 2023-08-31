@@ -9,7 +9,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.example.calculatorrefactoring.presentation.CalculatorViewModel
-import com.example.calculatorrefactoring.screen.ExpressionSection
+import com.example.calculatorrefactoring.presentation.screen.ExpressionSection
 import com.example.calculatorrefactoring.ui.theme.DynamicTheme
 import dagger.hilt.android.AndroidEntryPoint
 
